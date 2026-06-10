@@ -1,0 +1,14 @@
+# 대용량 원자료 (110MB) — data.gov.tw/dataset/13119 에서 재다운로드. README 참고
+tw_votedata.zip
+
+# 파이썬 캐시
+__pycache__/
+*.pyc
+
+# 로그·임시
+*.log
+REPORT_updated.pdf
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,4 @@
+# 쉘 스크립트는 LF 고정 (Mac/Linux bash 실행 보장)
+*.sh text eol=lf
+*.py text
+*.md text
