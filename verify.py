@@ -32,9 +32,13 @@ print('\n===== §4-1 관측 동일쌍 =====')
 def C2(n): return n*(n-1)//2
 def pc(vals): c = Counter(vals); return sum(C2(v) for v in c.values() if v >= 2)
 def topk(v, rp): sv = sorted(v, reverse=True); return tuple(sv[r] for r in rp) if len(sv) > max(rp) else None
+def contest_of(r):  # 광주·전남은 통합 단체장 선거 → 한 선거로 묶음
+    if r['ec'] == '3' and r['sido'] in ('광주광역시', '전라남도'):
+        return '광주·전남'
+    return r['contest']
 def grp(recset):
     g = defaultdict(list)
-    for r in recset: g[r['contest']].append(r['votes'])
+    for r in recset: g[contest_of(r)].append(r['votes'])
     return g
 def collisions(recset, rp):
     g = grp(recset); within = 0; pool = []
@@ -42,7 +46,7 @@ def collisions(recset, rp):
         vals = [topk(v, rp) for v in vl]; vals = [x for x in vals if x]
         within += pc(vals); pool += vals
     return within, pc(pool)
-claims = {(0,1): (4,9,2,4), (1,2): (12,30,14,24), (2,3): (232,593,119,259)}
+claims = {(0,1): (5,9,2,4), (1,2): (15,30,15,24), (2,3): (238,593,125,259)}  # 선거내는 광주·전남 통합 기준
 for rp, (sw, sp, bw, bp) in claims.items():
     w,p = collisions(sa, rp); chk(f'사전{tuple(r+1 for r in rp)} 시도내', w, sw); chk(f'사전{tuple(r+1 for r in rp)} 풀링', p, sp)
     w,p = collisions(bn, rp); chk(f'본투표{tuple(r+1 for r in rp)} 시도내', w, bw); chk(f'본투표{tuple(r+1 for r in rp)} 풀링', p, bp)
