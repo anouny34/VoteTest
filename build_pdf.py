@@ -28,12 +28,17 @@ html_body = re.sub(r'<img src="([^"]+\.png)"', embed, html_body)
 
 # 2-b) 특정 챕터는 앞 챕터에 이어지도록 페이지 분리 해제
 if 'FINAL' in os.path.basename(SRC).upper():
-    NO_BREAK_TITLES = ['2. 무엇을', '3. 어떻게', '7. 쉬운 비유', '8. 본 분석']  # 최종보고서: 2·3·7·8장 이어붙임
+    NO_BREAK_TITLES = ['8. 본 분석']  # 최종보고서: 8장만 7장에 이어붙임(2·3·7장은 새 페이지)
 else:
     NO_BREAK_TITLES = ['4. 결과', '7. 본 분석의 한계']
 for title in NO_BREAK_TITLES:
     html_body = re.sub(r'(<h2\b)([^>]*>\s*' + re.escape(title) + ')',
                        r'\1 style="page-break-before:avoid"\2', html_body, count=1)
+# 소제목·문단을 새 페이지에서 시작: 4-6, 그리고 4-4의 ② 몬테카를로
+html_body = re.sub(r'(<h3\b)([^>]*>\s*4-6\.)',
+                   r'\1 style="page-break-before:always"\2', html_body, count=1)
+html_body = re.sub(r'<p>(<strong>② 몬테카를로)',
+                   r'<p style="page-break-before:always">\1', html_body, count=1)
 
 # 3) HTML 템플릿 + CSS
 CSS = """

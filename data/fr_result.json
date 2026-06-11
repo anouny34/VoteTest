@@ -1,24 +1,24 @@
 {
   "2022": {
-    "N": 69682,
+    "N": 69612,
     "candidates": 12,
-    "observed": 160360,
-    "groups": 14444,
+    "observed": 157945,
+    "groups": 14443,
+    "avg": 505,
+    "total": 35132947,
     "expected": 384159.69,
     "exp_lo": 380996.2,
-    "exp_hi": 387782.7,
-    "avg": 504,
-    "total": 35132947
+    "exp_hi": 387782.7
   },
   "2017": {
-    "N": 69242,
+    "N": 69228,
     "candidates": 11,
-    "observed": 202595,
-    "groups": 13510,
+    "observed": 202504,
+    "groups": 13509,
+    "avg": 521,
+    "total": 36054394,
     "expected": 579970.29,
     "exp_lo": 574535.375,
-    "exp_hi": 585579.6,
-    "avg": 521,
-    "total": 36054394
+    "exp_hi": 585579.6
   }
 }

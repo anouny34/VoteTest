@@ -86,7 +86,7 @@ def run(gubun, rankpairs, B=1000, model='A'):
 
 if __name__ == '__main__':
     rankpairs = [(0, 1), (1, 2), (2, 3)]
-    B = 1000
+    B = 2000
     for gubun in ['관내사전투표', '선거일투표']:
         obs = observed(gubun, rankpairs)
         for model in ['A', 'B']:

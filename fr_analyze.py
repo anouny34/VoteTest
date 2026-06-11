@@ -23,6 +23,7 @@ for yr, fn, NC in ELECTIONS:
         if len(p) < 25 + 7 * (NC - 1) + 1: continue
         try: v = [int(p[25 + 7 * i]) for i in range(NC)]
         except ValueError: continue
+        if sum(v) == 0: continue  # 득표 0인 빈 투표소(미운영 등) 제외
         V.append(v)
         if names is None: names = [p[23 + 7 * i] for i in range(NC)]
     N = len(V); arr = np.array(V); tot = arr.sum(); sh = dict(zip(names, arr.sum(0) / tot * 100))
@@ -46,6 +47,7 @@ for yr, fn, NC in ELECTIONS:
     e = sims.mean()
     print(f'   1·2위 동일쌍: 관측 {obs:,}쌍 (그룹 {ngroups:,}) | 우연기대 {e:,.0f} (95% {np.percentile(sims,2.5):,.0f}~{np.percentile(sims,97.5):,.0f}) | 관측{"≤" if obs<=e else ">"}기대, p={(np.sum(sims>=obs)+1)/(B+1):.3f}')
     out[yr] = {'N': N, 'candidates': NC, 'observed': obs, 'groups': ngroups,
+               'avg': round(int(tot) / N), 'total': int(tot),
                'expected': float(e), 'exp_lo': float(np.percentile(sims, 2.5)), 'exp_hi': float(np.percentile(sims, 97.5))}
 json.dump(out, open('data/fr_result.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
 print('\nsaved data/fr_result.json')

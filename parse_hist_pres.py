@@ -9,7 +9,8 @@ sys.stdout.reconfigure(encoding='utf-8')
 FILES = [('제17대 (이명박·2007)', 'pres_17_lee2007.xlsx', '보수'),
          ('제18대 (박근혜·2012)', 'pres_18_park2012.xlsx', '보수'),
          ('제19대 (문재인·2017)', 'pres_19_moon2017.xlsx', '진보'),
-         ('제20대 (윤석열·2022)', 'pres_20_yoon2022.xlsx', '보수')]
+         ('제20대 (윤석열·2022)', 'pres_20_yoon2022.xlsx', '보수'),
+         ('제21대 (이재명·2025)', 'pres_21_lee2025.xlsx', '진보')]
 
 def num(x):
     s = str(x).replace(',', '').strip()
