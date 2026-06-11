@@ -12,3 +12,10 @@ REPORT_updated.pdf
 # OS
 .DS_Store
 Thumbs.db
+
+# 프랑스 원본(대용량, 재현은 fr_analyze.py로)
+data/fr_presid*.txt
+
+# Windows 바로가기·로컬 PDF 사본
+*.lnk
+REPORT_FINAL 프랑스 추가.pdf

@@ -40,21 +40,27 @@ kr_order = [('한국 17대\n이명박', '제17대 (이명박·2007)'), ('한국 
 data = []
 for lab, key in kr_order:
     us = D[key]['units']; avg = sum(sum(u['votes']) for u in us) / len(us)
-    data.append((lab, p12(us), round(avg), True))
-data.append(('대만 2020\n차이잉원', tw20['obs'], round(tw20['avg']), False))
-data.append(('대만 2024\n라이칭더', tw24['obs'], round(tw24['avg']), False))
+    data.append((lab, p12(us), round(avg), 'kr', len(us)))
+data.append(('대만 2020\n차이잉원', tw20['obs'], round(tw20['avg']), 'tw', 17226))
+data.append(('대만 2024\n라이칭더', tw24['obs'], round(tw24['avg']), 'tw', 17795))
+FR = json.load(open('data/fr_result.json', encoding='utf-8'))
+data.append(('프랑스 2017\n마크롱', FR['2017']['observed'], FR['2017']['avg'], 'fr', FR['2017']['N']))
+data.append(('프랑스 2022\n마크롱', FR['2022']['observed'], FR['2022']['avg'], 'fr', FR['2022']['N']))
 labels = [d[0] for d in data]; col = [d[1] for d in data]
-colors = ['#3b6fb6' if d[3] else '#c0392b' for d in data]
-fig, ax = plt.subplots(figsize=(9.5, 4.8))
+CMAP = {'kr': '#3b6fb6', 'tw': '#c0392b', 'fr': '#27a844'}
+colors = [CMAP[d[3]] for d in data]
+fig, ax = plt.subplots(figsize=(10.5, 5.2))
 ax.bar(range(len(data)), col, color=colors)
+ax.set_yscale('log'); ax.set_ylim(30, max(col) * 4)
 for i, d in enumerate(data):
-    ax.text(i, d[1], f'{d[1]}쌍', ha='center', va='bottom', fontsize=9)
-    ax.text(i, d[1]/2, f'평균\n{d[2]}표', ha='center', va='center', fontsize=8, color='white', fontweight='bold')
-ax.set_xticks(range(len(data))); ax.set_xticklabels(labels, fontsize=9)
-ax.set_title('같은 투표구(투표소) 단위 비교 — 투표소가 작을수록 동일쌍↑\n한국 대선(파랑)·대만 총통(빨강), 모두 전국 풀링')
-ax.set_ylabel('1·2위 동일 득표쌍 수')
+    ax.text(i, d[1] * 1.12, f'{d[1]:,}쌍', ha='center', va='bottom', fontsize=8.5, fontweight='bold')
+    ax.text(i, 40, f'{d[4]:,}곳\n평균{d[2]}표', ha='center', va='bottom', fontsize=7.5, color='#333')
+ax.set_xticks(range(len(data))); ax.set_xticklabels(labels, fontsize=8.5)
+ax.set_title('투표소가 많을수록·작을수록 동일쌍 급증 (세로축 로그)\n한국 대선·대만 총통·프랑스 대선, 모두 전국 풀링 — 종이·수기개표 프랑스가 최다')
+ax.set_ylabel('1·2위 동일 득표쌍 수 (로그)')
 from matplotlib.patches import Patch
-ax.legend(handles=[Patch(color='#3b6fb6', label='한국 대선(투표구 1.3~1.4만)'),
-                   Patch(color='#c0392b', label='대만 총통(투개표소 1.7~1.8만)')])
+ax.legend(handles=[Patch(color='#3b6fb6', label='한국 대선(투표구 ~1.4만)'),
+                   Patch(color='#c0392b', label='대만 총통(투개표소 ~1.8만)'),
+                   Patch(color='#27a844', label='프랑스 대선(투표소 ~6.9만, 수기개표)')], loc='upper left')
 plt.tight_layout(); plt.savefig('figures/fig_tw_vs_kr.png'); plt.close()
 print('saved figures/fig_tw_vs_kr.png')
